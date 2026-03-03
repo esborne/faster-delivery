@@ -3,836 +3,440 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SwiftRoute Delivery - Nairobi & Thika Road</title>
+    <title>fasterr · glass delivery</title>
+    <!-- Font Awesome 6 (free) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;600;700&display=swap');
-        
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-        }
-
-        :root {
-            --primary: #FF6B35;
-            --secondary: #004E89;
-            --accent: #1A659E;
-            --dark: #0F1419;
-            --light: #F7F7F7;
-            --success: #2ECC71;
+            font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
         }
 
         body {
-            font-family: 'Space Grotesk', sans-serif;
-            background: var(--dark);
-            color: var(--light);
+            min-height: 100vh;
+            background: radial-gradient(circle at 10% 20%, #1e2f47, #14233c 90%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2rem 1.5rem;
+            position: relative;
             overflow-x: hidden;
         }
 
-        /* Animated Background */
-        .bg-animation {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            background: 
-                radial-gradient(circle at 20% 50%, rgba(255, 107, 53, 0.15) 0%, transparent 50%),
-                radial-gradient(circle at 80% 80%, rgba(0, 78, 137, 0.15) 0%, transparent 50%),
-                radial-gradient(circle at 40% 20%, rgba(26, 101, 158, 0.1) 0%, transparent 50%);
-            animation: bgPulse 8s ease-in-out infinite;
-        }
-
-        @keyframes bgPulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.7; }
-        }
-
-        /* Navigation */
-        nav {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            padding: 1.5rem 5%;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background: rgba(15, 20, 25, 0.9);
-            backdrop-filter: blur(10px);
-            z-index: 1000;
-            border-bottom: 1px solid rgba(255, 107, 53, 0.2);
-        }
-
-        .logo {
-            font-size: 1.8rem;
-            font-weight: 700;
-            color: var(--primary);
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .logo::before {
-            content: "⚡";
-            font-size: 2rem;
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.1); }
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 2rem;
-            list-style: none;
-        }
-
-        .nav-links a {
-            color: var(--light);
-            text-decoration: none;
-            font-weight: 500;
-            position: relative;
-            transition: color 0.3s;
-        }
-
-        .nav-links a::after {
+        /* liquid animated blobs */
+        body::before {
             content: '';
-            position: absolute;
-            bottom: -5px;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background: var(--primary);
-            transition: width 0.3s;
+            position: fixed;
+            width: 70vmax;
+            height: 70vmax;
+            background: radial-gradient(circle at 30% 30%, rgba(80, 160, 255, 0.3), rgba(160, 120, 255, 0.15) 70%);
+            top: -20vmax;
+            left: -20vmax;
+            border-radius: 50%;
+            filter: blur(80px);
+            z-index: 0;
+            animation: liquidMove 22s infinite alternate ease-in-out;
         }
 
-        .nav-links a:hover {
-            color: var(--primary);
+        body::after {
+            content: '';
+            position: fixed;
+            width: 80vmax;
+            height: 80vmax;
+            background: radial-gradient(circle at 70% 80%, rgba(255, 200, 100, 0.25), rgba(255, 140, 200, 0.15) 70%);
+            bottom: -30vmax;
+            right: -20vmax;
+            border-radius: 50%;
+            filter: blur(100px);
+            z-index: 0;
+            animation: liquidMove2 28s infinite alternate ease-in-out;
         }
 
-        .nav-links a:hover::after {
+        @keyframes liquidMove {
+            0% { transform: translate(0, 0) scale(1); opacity: 0.5; }
+            100% { transform: translate(8%, 12%) scale(1.2); opacity: 0.8; }
+        }
+
+        @keyframes liquidMove2 {
+            0% { transform: translate(0, 0) scale(1); opacity: 0.5; }
+            100% { transform: translate(-10%, -15%) scale(1.3); opacity: 0.8; }
+        }
+
+        .container {
+            position: relative;
+            z-index: 20;
+            max-width: 1300px;
             width: 100%;
         }
 
-        /* Hero Section */
-        .hero {
-            margin-top: 80px;
-            padding: 4rem 5%;
-            text-align: center;
-            position: relative;
+        /* glass components */
+        .glass-header, .contact-bar, .feature-card, .glass-card, .glass-note {
+            backdrop-filter: blur(14px) saturate(200%);
+            -webkit-backdrop-filter: blur(14px) saturate(200%);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 18px 40px -12px rgba(0, 0, 0, 0.4), inset 0 1px 2px rgba(255,255,255,0.3);
         }
 
-        .hero h1 {
-            font-size: clamp(2.5rem, 5vw, 4rem);
-            font-weight: 700;
-            margin-bottom: 1rem;
-            background: linear-gradient(135deg, var(--primary), var(--light));
+        .glass-header {
+            background: rgba(20, 30, 45, 0.3);
+            border-radius: 60px;
+            padding: 2rem 2.5rem;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 3.4rem;
+            font-weight: 600;
+            letter-spacing: -1px;
+            background: linear-gradient(135deg, #fff8ec, #ffdbb5);
             -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            animation: slideUp 0.8s ease-out;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 4px 20px rgba(0,0,0,0.4);
         }
 
-        .hero p {
-            font-size: 1.2rem;
-            color: rgba(255, 255, 255, 0.7);
-            max-width: 600px;
-            margin: 0 auto 2rem;
-            animation: slideUp 0.8s ease-out 0.2s both;
-        }
-
-        @keyframes slideUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        /* Price Calculator */
-        .calculator-section {
-            padding: 2rem 5%;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .calculator-card {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 107, 53, 0.3);
-            border-radius: 20px;
-            padding: 2.5rem;
-            backdrop-filter: blur(10px);
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-            animation: slideUp 0.8s ease-out 0.4s both;
-        }
-
-        .calculator-header {
-            text-align: center;
-            margin-bottom: 2rem;
-        }
-
-        .calculator-header h2 {
-            color: var(--primary);
-            font-size: 1.8rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .form-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1.5rem;
-            margin-bottom: 2rem;
-        }
-
-        .form-group {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .form-group label {
-            margin-bottom: 0.5rem;
-            color: rgba(255, 255, 255, 0.8);
-            font-weight: 500;
-            font-size: 0.9rem;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .form-group select,
-        .form-group input {
-            padding: 1rem;
-            border: 2px solid rgba(255, 107, 53, 0.3);
-            border-radius: 10px;
-            background: rgba(0, 0, 0, 0.3);
-            color: var(--light);
-            font-size: 1rem;
-            font-family: inherit;
-            transition: all 0.3s;
-        }
-
-        .form-group select:focus,
-        .form-group input:focus {
-            outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 20px rgba(255, 107, 53, 0.2);
-        }
-
-        .calculate-btn {
-            width: 100%;
-            padding: 1.2rem;
-            background: linear-gradient(135deg, var(--primary), #e55a2b);
-            border: none;
-            border-radius: 10px;
-            color: white;
-            font-size: 1.1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .calculate-btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-            transition: left 0.5s;
-        }
-
-        .calculate-btn:hover::before {
-            left: 100%;
-        }
-
-        .calculate-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 30px rgba(255, 107, 53, 0.4);
-        }
-
-        /* Price Result */
-        .price-result {
-            margin-top: 2rem;
-            padding: 2rem;
-            background: rgba(0, 0, 0, 0.4);
-            border-radius: 15px;
-            border: 2px solid var(--success);
-            display: none;
-            animation: fadeIn 0.5s ease-out;
-        }
-
-        .price-result.show {
-            display: block;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: scale(0.95); }
-            to { opacity: 1; transform: scale(1); }
-        }
-
-        .price-display {
-            text-align: center;
-        }
-
-        .price-label {
-            font-size: 1rem;
-            color: rgba(255, 255, 255, 0.7);
-            margin-bottom: 0.5rem;
-        }
-
-        .price-amount {
-            font-size: 3rem;
-            font-weight: 700;
-            color: var(--success);
-            text-shadow: 0 0 20px rgba(46, 204, 113, 0.3);
-        }
-
-        .price-details {
-            margin-top: 1rem;
-            padding-top: 1rem;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            font-size: 0.9rem;
-            color: rgba(255, 255, 255, 0.6);
-        }
-
-        /* Pricing Cards */
-        .pricing-section {
-            padding: 4rem 5%;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .section-title {
-            text-align: center;
-            font-size: 2.5rem;
-            margin-bottom: 3rem;
-            color: var(--light);
-            position: relative;
-            display: inline-block;
-            left: 50%;
-            transform: translateX(-50%);
-        }
-
-        .section-title::after {
-            content: '';
-            position: absolute;
-            bottom: -10px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 60px;
-            height: 4px;
-            background: var(--primary);
-            border-radius: 2px;
-        }
-
-        .pricing-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-        }
-
-        .pricing-card {
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 20px;
-            padding: 2rem;
-            position: relative;
-            overflow: hidden;
-            transition: all 0.3s;
-        }
-
-        .pricing-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 5px;
-            background: linear-gradient(90deg, var(--primary), var(--secondary));
-            transform: scaleX(0);
-            transition: transform 0.3s;
-        }
-
-        .pricing-card:hover {
-            transform: translateY(-10px);
-            border-color: var(--primary);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
-        }
-
-        .pricing-card:hover::before {
-            transform: scaleX(1);
-        }
-
-        .zone-badge {
-            display: inline-block;
-            padding: 0.5rem 1rem;
-            background: rgba(255, 107, 53, 0.2);
-            color: var(--primary);
-            border-radius: 20px;
-            font-size: 0.8rem;
-            font-weight: 600;
-            margin-bottom: 1rem;
-            text-transform: uppercase;
-        }
-
-        .pricing-card h3 {
-            font-size: 1.5rem;
-            margin-bottom: 1rem;
-            color: var(--light);
-        }
-
-        .price-list {
-            list-style: none;
-            margin: 1.5rem 0;
-        }
-
-        .price-list li {
-            padding: 0.8rem 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .price-list li:last-child {
-            border-bottom: none;
-        }
-
-        .location-name {
-            color: rgba(255, 255, 255, 0.8);
-        }
-
-        .location-price {
-            font-weight: 600;
-            color: var(--primary);
-            font-size: 1.1rem;
-        }
-
-        .features {
-            margin-top: 1.5rem;
-            padding-top: 1.5rem;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .feature-item {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            margin-bottom: 0.5rem;
-            font-size: 0.9rem;
-            color: rgba(255, 255, 255, 0.7);
-        }
-
-        .feature-item::before {
-            content: "✓";
-            color: var(--success);
-            font-weight: bold;
-        }
-
-        /* CTA Section */
-        .cta-section {
-            padding: 4rem 5%;
-            text-align: center;
-            background: linear-gradient(135deg, rgba(255, 107, 53, 0.1), rgba(0, 78, 137, 0.1));
-            margin: 4rem 5%;
-            border-radius: 30px;
-            border: 1px solid rgba(255, 107, 53, 0.2);
-        }
-
-        .cta-button {
-            display: inline-block;
-            margin-top: 1.5rem;
-            padding: 1rem 2.5rem;
-            background: var(--primary);
-            color: white;
-            text-decoration: none;
-            border-radius: 50px;
-            font-weight: 600;
-            transition: all 0.3s;
-            box-shadow: 0 10px 30px rgba(255, 107, 53, 0.3);
-        }
-
-        .cta-button:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 15px 40px rgba(255, 107, 53, 0.4);
-        }
-
-        /* Footer */
-        footer {
-            padding: 2rem 5%;
-            text-align: center;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            color: rgba(255, 255, 255, 0.5);
-            margin-top: 4rem;
-        }
-
-        .contact-info {
+        /* contact bar with icons */
+        .contact-bar {
+            background: rgba(0, 0, 0, 0.25);
+            border-radius: 60px;
+            padding: 1rem 2rem;
+            margin-bottom: 2.5rem;
             display: flex;
             justify-content: center;
-            gap: 2rem;
-            margin-bottom: 1rem;
+            align-items: center;
+            gap: 2.5rem;
             flex-wrap: wrap;
         }
 
         .contact-item {
             display: flex;
             align-items: center;
-            gap: 0.5rem;
+            gap: 0.7rem;
+            color: white;
+            font-size: 1.3rem;
+            transition: 0.2s;
+            text-decoration: none;
+            background: rgba(255,255,255,0.05);
+            padding: 0.5rem 1.2rem;
+            border-radius: 50px;
+            border: 1px solid rgba(255,255,255,0.15);
         }
 
-        /* Mobile Responsive */
-        @media (max-width: 768px) {
-            .nav-links {
-                display: none;
-            }
-            
-            .hero h1 {
-                font-size: 2rem;
-            }
-            
-            .calculator-card {
-                padding: 1.5rem;
-            }
-            
-            .price-amount {
-                font-size: 2rem;
-            }
+        .contact-item i {
+            font-size: 1.8rem;
+            filter: drop-shadow(0 2px 5px rgba(0,0,0,0.3));
         }
 
-        /* Loading Animation */
-        .loading {
-            display: none;
-            width: 20px;
-            height: 20px;
-            border: 3px solid rgba(255, 255, 255, 0.3);
-            border-radius: 50%;
-            border-top-color: white;
-            animation: spin 1s ease-in-out infinite;
-            margin: 0 auto;
+        .contact-item:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: scale(1.05);
+            border-color: rgba(255,215,0,0.5);
         }
 
-        @keyframes spin {
-            to { transform: rotate(360deg); }
+        .wa i { color: #25D366; }
+        .phone i { color: #4cd964; }
+
+        /* feature grid */
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+            gap: 1.2rem;
+            margin: 2rem 0 2.5rem;
         }
 
-        .calculate-btn.loading-active .btn-text {
-            display: none;
+        .feature-card {
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 40px;
+            padding: 1.5rem 1rem;
+            text-align: center;
+            color: white;
+            transition: 0.25s;
         }
 
-        .calculate-btn.loading-active .loading {
-            display: block;
+        .feature-card i {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            color: #ffda99;
+            text-shadow: 0 2px 10px rgba(255,200,0,0.3);
+        }
+
+        .feature-card h3 {
+            font-weight: 500;
+            font-size: 1.3rem;
+            margin-bottom: 0.3rem;
+        }
+
+        .feature-card p {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        .feature-card:hover {
+            background: rgba(255, 255, 255, 0.15);
+            transform: translateY(-5px);
+        }
+
+        /* search box */
+        .search-box {
+            background: rgba(255,255,255,0.1);
+            border-radius: 60px;
+            padding: 1rem 2rem;
+            margin-bottom: 2rem;
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+            color: white;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .search-box input {
+            background: transparent;
+            border: none;
+            color: white;
+            font-size: 1.1rem;
+            width: 100%;
+            outline: none;
+        }
+
+        .search-box input::placeholder {
+            color: rgba(255,255,255,0.5);
+        }
+
+        /* price grid */
+        .price-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            border-radius: 32px;
+            padding: 1.3rem 1.2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: white;
+            text-shadow: 0 2px 5px rgba(0,0,0,0.3);
+            transition: 0.15s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .glass-card:hover {
+            background: rgba(255, 255, 255, 0.18);
+            transform: translateY(-4px) scale(1.01);
+            border-color: rgba(255,255,255,0.5);
+        }
+
+        .place {
+            font-weight: 600;
+            font-size: 1.2rem;
+        }
+
+        .price {
+            background: rgba(0, 0, 0, 0.35);
+            backdrop-filter: blur(8px);
+            padding: 0.3rem 1rem;
+            border-radius: 40px;
+            font-weight: 700;
+            font-size: 1.2rem;
+            color: #fef7e9;
+            border: 1px solid rgba(255,255,200,0.3);
+        }
+
+        .highlight-card {
+            background: rgba(255, 215, 100, 0.18);
+            border: 1.5px solid rgba(255, 220, 100, 0.7);
+        }
+
+        .highlight-card .price {
+            background: rgba(200, 140, 30, 0.5);
+            border-color: #ffd966;
+        }
+
+        .glass-note {
+            background: rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+            border-radius: 60px;
+            padding: 1rem 2rem;
+            display: inline-block;
+            color: white;
+            font-size: 1.1rem;
+            margin-top: 1rem;
+        }
+
+        .footer {
+            margin-top: 4rem;
+            text-align: center;
+            color: rgba(255,255,255,0.4);
+            font-size: 0.9rem;
+            background: rgba(0,0,0,0.2);
+            backdrop-filter: blur(5px);
+            border-radius: 60px;
+            padding: 1rem;
+        }
+
+        .footer a {
+            color: #ffdb9f;
+            text-decoration: none;
+        }
+
+        @media (max-width: 500px) {
+            h1 { font-size: 2.5rem; }
+            .contact-bar { gap: 1rem; }
         }
     </style>
 </head>
 <body>
-    <div class="bg-animation"></div>
+    <div class="container">
+        <!-- glass header - simplified -->
+        <div class="glass-header">
+            <h1>⚡ fasterr delivery</h1>
+        </div>
 
-    <!-- Navigation -->
-    <nav>
-        <div class="logo">SwiftRoute</div>
-        <ul class="nav-links">
-            <li><a href="#calculator">Calculator</a></li>
-            <li><a href="#pricing">Pricing</a></li>
-            <li><a href="#contact">Contact</a></li>
-        </ul>
-    </nav>
+        <!-- contact bar with phone & whatsapp icons (clickable) -->
+        <div class="contact-bar">
+            <a href="tel:+254702453346" class="contact-item phone">
+                <i class="fas fa-phone-alt"></i> <span>+254 702 453346</span>
+            </a>
+            <a href="https://wa.me/254702453346" target="_blank" class="contact-item wa">
+                <i class="fab fa-whatsapp"></i> <span>WhatsApp</span>
+            </a>
+        </div>
 
-    <!-- Hero Section -->
-    <section class="hero">
-        <h1>Fast Delivery Across Nairobi</h1>
-        <p>Reliable same-day delivery services from Thika Road to Nairobi CBD and all outskirts. Transparent pricing, real-time tracking.</p>
-    </section>
-
-    <!-- Price Calculator -->
-    <section class="calculator-section" id="calculator">
-        <div class="calculator-card">
-            <div class="calculator-header">
-                <h2>📍 Delivery Price Calculator</h2>
-                <p>Get instant quote for your delivery</p>
+        <!-- delivery feature cards -->
+        <div class="features">
+            <div class="feature-card">
+                <i class="fas fa-bolt"></i>
+                <h3>Express</h3>
+                <p>delivery in 30 min or less</p>
             </div>
+            <div class="feature-card">
+                <i class="fas fa-shield-alt"></i>
+                <h3>Safe & insured</h3>
+                <p>full coverage up to 50k</p>
+            </div>
+            <div class="feature-card">
+                <i class="fas fa-clock"></i>
+                <h3>24/7 support</h3>
+                <p>call or WhatsApp anytime</p>
+            </div>
+        </div>
+
+        <!-- search box -->
+        <div class="search-box">
+            <i class="fas fa-search" style="color: rgba(255,255,255,0.5);"></i>
+            <input type="text" placeholder="Search your location... (e.g., CBD, Westlands, Thika Road)">
+        </div>
+
+        <!-- price grid with all locations -->
+        <div class="price-grid">
+            <!-- CBD & Central -->
+            <div class="glass-card highlight-card"><span class="place">CBD</span><span class="price">200</span></div>
+            <div class="glass-card"><span class="place">City Stadium</span><span class="price">200</span></div>
+            <div class="glass-card"><span class="place">Ngara</span><span class="price">200</span></div>
+            <div class="glass-card"><span class="place">Shauri Moyo</span><span class="price">200</span></div>
+            <div class="glass-card"><span class="place">Bahati</span><span class="price">250</span></div>
+            <div class="glass-card"><span class="place">Pangani</span><span class="price">200</span></div>
+            <div class="glass-card"><span class="place">Muthurwa</span><span class="price">180</span></div>
+            <div class="glass-card"><span class="place">Gikomba</span><span class="price">200</span></div>
+            <div class="glass-card"><span class="place">Industrial Area</span><span class="price">250</span></div>
+            <div class="glass-card"><span class="place">Makadara</span><span class="price">250</span></div>
             
-            <form id="deliveryForm">
-                <div class="form-grid">
-                    <div class="form-group">
-                        <label for="pickup">Pickup Location</label>
-                        <select id="pickup" required>
-                            <option value="">Select pickup zone</option>
-                            <option value="cbd">Nairobi CBD</option>
-                            <option value="westlands">Westlands</option>
-                            <option value="thika-road">Thika Road (Githurai, Kasarani, Roysambu)</option>
-                            <option value="eastlands">Eastlands (Umoja, Buruburu, Pipeline)</option>
-                            <option value="south-b">South B/C</option>
-                            <option value="karen">Karen/Langata</option>
-                            <option value="westlands-out">Westlands Outskirts (Riverside, Spring Valley)</option>
-                            <option value="kiambu">Kiambu Road</option>
-                            <option value="mombasa-road">Mombasa Road</option>
-                            <option value="ngong-road">Ngong Road</option>
-                        </select>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="destination">Destination</label>
-                        <select id="destination" required>
-                            <option value="">Select destination zone</option>
-                            <option value="cbd">Nairobi CBD</option>
-                            <option value="westlands">Westlands</option>
-                            <option value="thika-road">Thika Road (Githurai, Kasarani, Roysambu)</option>
-                            <option value="eastlands">Eastlands (Umoja, Buruburu, Pipeline)</option>
-                            <option value="south-b">South B/C</option>
-                            <option value="karen">Karen/Langata</option>
-                            <option value="westlands-out">Westlands Outskirts (Riverside, Spring Valley)</option>
-                            <option value="kiambu">Kiambu Road</option>
-                            <option value="mombasa-road">Mombasa Road</option>
-                            <option value="ngong-road">Ngong Road</option>
-                        </select>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="package-size">Package Size</label>
-                        <select id="package-size" required>
-                            <option value="small">Small (Documents, small parcels)</option>
-                            <option value="medium">Medium (Shoe box size)</option>
-                            <option value="large">Large (Moving box size)</option>
-                            <option value="xl">Extra Large (Furniture, multiple boxes)</option>
-                        </select>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="urgency">Delivery Speed</label>
-                        <select id="urgency" required>
-                            <option value="standard">Standard (4-6 hours)</option>
-                            <option value="express">Express (1-2 hours)</option>
-                            <option value="same-day">Same Day (by 6 PM)</option>
-                            <option value="scheduled">Scheduled (Specific time)</option>
-                        </select>
-                    </div>
-                </div>
-                
-                <button type="submit" class="calculate-btn">
-                    <span class="btn-text">Calculate Price</span>
-                    <div class="loading"></div>
-                </button>
-            </form>
+            <!-- Inner Suburbs -->
+            <div class="glass-card"><span class="place">Sarit Centre</span><span class="price">250</span></div>
+            <div class="glass-card"><span class="place">Westlands</span><span class="price">300</span></div>
+            <div class="glass-card"><span class="place">Kilimani</span><span class="price">300</span></div>
+            <div class="glass-card"><span class="place">Kileleshwa</span><span class="price">300</span></div>
+            <div class="glass-card"><span class="place">Lavington</span><span class="price">350</span></div>
+            <div class="glass-card"><span class="place">Hurlingham</span><span class="price">300</span></div>
+            <div class="glass-card"><span class="place">Upper Hill</span><span class="price">250</span></div>
+            <div class="glass-card"><span class="place">Parklands</span><span class="price">300</span></div>
+            <div class="glass-card"><span class="place">Muthaiga</span><span class="price">400</span></div>
+            <div class="glass-card"><span class="place">Spring Valley</span><span class="price">350</span></div>
+            <div class="glass-card"><span class="place">Kitusuru</span><span class="price">350</span></div>
             
-            <div id="priceResult" class="price-result">
-                <div class="price-display">
-                    <div class="price-label">Estimated Delivery Cost</div>
-                    <div class="price-amount" id="priceAmount">KES 0</div>
-                    <div class="price-details" id="priceDetails"></div>
-                </div>
+            <!-- Outer Suburbs -->
+            <div class="glass-card"><span class="place">Village Market</span><span class="price">450</span></div>
+            <div class="glass-card"><span class="place">Gigiri</span><span class="price">450</span></div>
+            <div class="glass-card"><span class="place">Bomas/Galleria</span><span class="price">500</span></div>
+            <div class="glass-card"><span class="place">Lang'ata</span><span class="price">450</span></div>
+            <div class="glass-card"><span class="place">Karen</span><span class="price">550</span></div>
+            <div class="glass-card"><span class="place">Hardy</span><span class="price">500</span></div>
+            <div class="glass-card"><span class="place">Nyayo Estate</span><span class="price">500</span></div>
+            <div class="glass-card"><span class="place">Embakasi</span><span class="price">450</span></div>
+            <div class="glass-card"><span class="place">South B</span><span class="price">400</span></div>
+            <div class="glass-card"><span class="place">South C</span><span class="price">400</span></div>
+            <div class="glass-card"><span class="place">Buruburu</span><span class="price">400</span></div>
+            <div class="glass-card"><span class="place">Donholm</span><span class="price">400</span></div>
+            <div class="glass-card"><span class="place">Umoja</span><span class="price">400</span></div>
+            <div class="glass-card"><span class="place">Kayole</span><span class="price">450</span></div>
+            
+            <!-- Greater Nairobi -->
+            <div class="glass-card"><span class="place">Along Thika Road</span><span class="price">200</span></div>
+            <div class="glass-card"><span class="place">CID Hqs</span><span class="price">300</span></div>
+            <div class="glass-card"><span class="place">Tatu City</span><span class="price">700</span></div>
+            <div class="glass-card"><span class="place">Muchatha</span><span class="price">700</span></div>
+            <div class="glass-card"><span class="place">Wangige</span><span class="price">600</span></div>
+            <div class="glass-card"><span class="place">Dani</span><span class="price">600</span></div>
+            <div class="glass-card"><span class="place">Choka</span><span class="price">700</span></div>
+            <div class="glass-card"><span class="place">Rui</span><span class="price">800</span></div>
+            <div class="glass-card"><span class="place">Ruiru</span><span class="price">600</span></div>
+            <div class="glass-card"><span class="place">Juja</span><span class="price">650</span></div>
+            <div class="glass-card"><span class="place">Kitengela</span><span class="price">800</span></div>
+            <div class="glass-card"><span class="place">Athi River</span><span class="price">750</span></div>
+            <div class="glass-card"><span class="place">Ongata Rongai</span><span class="price">700</span></div>
+            <div class="glass-card"><span class="place">Kiserian</span><span class="price">750</span></div>
+            <div class="glass-card"><span class="place">Ngong</span><span class="price">650</span></div>
+            <div class="glass-card"><span class="place">Kikuyu</span><span class="price">600</span></div>
+            <div class="glass-card"><span class="place">Limuru</span><span class="price">800</span></div>
+            <div class="glass-card"><span class="place">Kiambu</span><span class="price">550</span></div>
+            <div class="glass-card"><span class="place">Kahawa Wendani</span><span class="price">500</span></div>
+            <div class="glass-card"><span class="place">Kahawa Sukari</span><span class="price">500</span></div>
+            <div class="glass-card"><span class="place">Zimmerman</span><span class="price">450</span></div>
+            <div class="glass-card"><span class="place">Githurai</span><span class="price">450</span></div>
+            <div class="glass-card"><span class="place">Kasarani</span><span class="price">450</span></div>
+            <div class="glass-card"><span class="place">Mwiki</span><span class="price">500</span></div>
+            <div class="glass-card"><span class="place">Dandora</span><span class="price">400</span></div>
+            <div class="glass-card"><span class="place">Korogocho</span><span class="price">400</span></div>
+            <div class="glass-card"><span class="place">Baba Dogo</span><span class="price">350</span></div>
+            <div class="glass-card"><span class="place">Roysambu</span><span class="price">400</span></div>
+        </div>
+
+        <!-- note with special rates -->
+        <div style="text-align: center;">
+            <div class="glass-note">
+                ⚡ <strong>CBD: 200 KSh</strong> · Along Thika Road special: 200 KSh · all prices final
             </div>
         </div>
-    </section>
 
-    <!-- Pricing Section -->
-    <section class="pricing-section" id="pricing">
-        <h2 class="section-title">Zone Pricing Guide</h2>
-        
-        <div class="pricing-grid">
-            <!-- Thika Road Card -->
-            <div class="pricing-card">
-                <span class="zone-badge">Thika Road Corridor</span>
-                <h3>Thika Road & Environs</h3>
-                <ul class="price-list">
-                    <li>
-                        <span class="location-name">CBD to Githurai</span>
-                        <span class="location-price">KES 300-400</span>
-                    </li>
-                    <li>
-                        <span class="location-name">CBD to Kasarani</span>
-                        <span class="location-price">KES 350-450</span>
-                    </li>
-                    <li>
-                        <span class="location-name">CBD to Roysambu</span>
-                        <span class="location-price">KES 400-500</span>
-                    </li>
-                    <li>
-                        <span class="location-name">CBD to Thika Town</span>
-                        <span class="location-price">KES 800-1,200</span>
-                    </li>
-                    <li>
-                        <span class="location-name">Within Thika Road</span>
-                        <span class="location-price">KES 200-300</span>
-                    </li>
-                </ul>
-                <div class="features">
-                    <div class="feature-item">Same-day delivery guaranteed</div>
-                    <div class="feature-item">Real-time tracking</div>
-                    <div class="feature-item">Cash on delivery available</div>
-                </div>
-            </div>
-
-            <!-- Nairobi CBD Card -->
-            <div class="pricing-card">
-                <span class="zone-badge" style="background: rgba(0, 78, 137, 0.2); color: var(--secondary);">Central Business</span>
-                <h3>Nairobi CBD & Central</h3>
-                <ul class="price-list">
-                    <li>
-                        <span class="location-name">Within CBD</span>
-                        <span class="location-price">KES 150-250</span>
-                    </li>
-                    <li>
-                        <span class="location-name">CBD to Westlands</span>
-                        <span class="location-price">KES 250-350</span>
-                    </li>
-                    <li>
-                        <span class="location-name">CBD to Kilimani</span>
-                        <span class="location-price">KES 300-400</span>
-                    </li>
-                    <li>
-                        <span class="location-name">CBD to Ngara/Pangani</span>
-                        <span class="location-price">KES 200-300</span>
-                    </li>
-                    <li>
-                        <span class="location-name">CBD to Industrial Area</span>
-                        <span class="location-price">KES 300-400</span>
-                    </li>
-                </ul>
-                <div class="features">
-                    <div class="feature-item">1-hour express available</div>
-                    <div class="feature-item">Secure handling</div>
-                    <div class="feature-item">Digital proof of delivery</div>
-                </div>
-            </div>
-
-            <!-- Outskirts Card -->
-            <div class="pricing-card">
-                <span class="zone-badge" style="background: rgba(46, 204, 113, 0.2); color: var(--success);">Greater Nairobi</span>
-                <h3>Nairobi Outskirts</h3>
-                <ul class="price-list">
-                    <li>
-                        <span class="location-name">CBD to Karen/Langata</span>
-                        <span class="location-price">KES 500-700</span>
-                    </li>
-                    <li>
-                        <span class="location-name">CBD to Rongai</span>
-                        <span class="location-price">KES 600-800</span>
-                    </li>
-                    <li>
-                        <span class="location-name">CBD to Kiambu Road</span>
-                        <span class="location-price">KES 400-600</span>
-                    </li>
-                    <li>
-                        <span class="location-name">CBD to Mlolongo</span>
-                        <span class="location-price">KES 600-900</span>
-                    </li>
-                    <li>
-                        <span class="location-name">CBD to Kikuyu</span>
-                        <span class="location-price">KES 500-750</span>
-                    </li>
-                </ul>
-                <div class="features">
-                    <div class="feature-item">Scheduled delivery slots</div>
-                    <div class="feature-item">Bulk discounts available</div>
-                    <div class="feature-item">Insurance included</div>
-                </div>
-            </div>
+        <!-- footer -->
+        <div class="footer">
+            <p>✨ fasterr delivery © 2026 · <i class="fas fa-phone"></i> <a href="tel:+254702453346">+254 702 453346</a> · <i class="fab fa-whatsapp"></i> <a href="https://wa.me/254702453346" target="_blank">WhatsApp</a></p>
+            <p style="opacity:0.6;">* all prices in KES · delivery within 30-45 min</p>
         </div>
-    </section>
-
-    <!-- CTA Section -->
-    <section class="cta-section">
-        <h2 style="font-size: 2rem; margin-bottom: 1rem;">Ready to Send?</h2>
-        <p style="color: rgba(255, 255, 255, 0.7); max-width: 600px; margin: 0 auto;">
-            Join thousands of businesses and individuals trusting SwiftRoute for their daily delivery needs across Nairobi.
-        </p>
-        <a href="tel:+254712345678" class="cta-button">Call Now: 0712 345 678</a>
-    </section>
-
-    <!-- Footer -->
-    <footer id="contact">
-        <div class="contact-info">
-            <div class="contact-item">📍 Nairobi, Kenya</div>
-            <div class="contact-item">📞 0712 345 678</div>
-            <div class="contact-item">✉️ info@swiftroute.co.ke</div>
-            <div class="contact-item">🕒 Mon-Sat: 8AM - 8PM</div>
-        </div>
-        <p>&copy; 2026 SwiftRoute Delivery Services. All rights reserved.</p>
-    </footer>
+    </div>
 
     <script>
-        // Pricing Logic
-        const pricingMatrix = {
-            'cbd': { 'cbd': 150, 'westlands': 300, 'thika-road': 350, 'eastlands': 300, 'south-b': 350, 'karen': 600, 'westlands-out': 350, 'kiambu': 450, 'mombasa-road': 400, 'ngong-road': 450 },
-            'westlands': { 'cbd': 300, 'westlands': 200, 'thika-road': 450, 'eastlands': 400, 'south-b': 400, 'karen': 500, 'westlands-out': 250, 'kiambu': 500, 'mombasa-road': 450, 'ngong-road': 400 },
-            'thika-road': { 'cbd': 350, 'westlands': 450, 'thika-road': 200, 'eastlands': 400, 'south-b': 500, 'karen': 700, 'westlands-out': 500, 'kiambu': 350, 'mombasa-road': 600, 'ngong-road': 600 },
-            'eastlands': { 'cbd': 300, 'westlands': 400, 'thika-road': 400, 'eastlands': 200, 'south-b': 300, 'karen': 600, 'westlands-out': 450, 'kiambu': 500, 'mombasa-road': 350, 'ngong-road': 400 },
-            'south-b': { 'cbd': 350, 'westlands': 400, 'thika-road': 500, 'eastlands': 300, 'south-b': 200, 'karen': 450, 'westlands-out': 450, 'kiambu': 600, 'mombasa-road': 300, 'ngong-road': 350 },
-            'karen': { 'cbd': 600, 'westlands': 500, 'thika-road': 700, 'eastlands': 600, 'south-b': 450, 'karen': 250, 'westlands-out': 550, 'kiambu': 800, 'mombasa-road': 500, 'ngong-road': 400 },
-            'westlands-out': { 'cbd': 350, 'westlands': 250, 'thika-road': 500, 'eastlands': 450, 'south-b': 450, 'karen': 550, 'westlands-out': 200, 'kiambu': 550, 'mombasa-road': 500, 'ngong-road': 450 },
-            'kiambu': { 'cbd': 450, 'westlands': 500, 'thika-road': 350, 'eastlands': 500, 'south-b': 600, 'karen': 800, 'westlands-out': 550, 'kiambu': 250, 'mombasa-road': 700, 'ngong-road': 700 },
-            'mombasa-road': { 'cbd': 400, 'westlands': 450, 'thika-road': 600, 'eastlands': 350, 'south-b': 300, 'karen': 500, 'westlands-out': 500, 'kiambu': 700, 'mombasa-road': 200, 'ngong-road': 350 },
-            'ngong-road': { 'cbd': 450, 'westlands': 400, 'thika-road': 600, 'eastlands': 400, 'south-b': 350, 'karen': 400, 'westlands-out': 450, 'kiambu': 700, 'mombasa-road': 350, 'ngong-road': 250 }
-        };
-
-        const sizeMultiplier = {
-            'small': 1,
-            'medium': 1.3,
-            'large': 1.8,
-            'xl': 2.5
-        };
-
-        const urgencyMultiplier = {
-            'standard': 1,
-            'express': 1.5,
-            'same-day': 1.2,
-            'scheduled': 1.1
-        };
-
-        document.getElementById('deliveryForm').addEventListener('submit', function(e) {
-            e.preventDefault();
+        // Simple search functionality
+        document.querySelector('.search-box input').addEventListener('input', function(e) {
+            const searchTerm = e.target.value.toLowerCase();
+            const cards = document.querySelectorAll('.glass-card');
             
-            const btn = document.querySelector('.calculate-btn');
-            btn.classList.add('loading-active');
-            
-            // Simulate calculation delay
-            setTimeout(() => {
-                const pickup = document.getElementById('pickup').value;
-                const destination = document.getElementById('destination').value;
-                const size = document.getElementById('package-size').value;
-                const urgency = document.getElementById('urgency').value;
-                
-                if (pickup === destination) {
-                    alert('Pickup and destination cannot be the same!');
-                    btn.classList.remove('loading-active');
-                    return;
+            cards.forEach(card => {
+                const place = card.querySelector('.place').innerText.toLowerCase();
+                if (place.includes(searchTerm) || searchTerm === '') {
+                    card.style.display = 'flex';
+                } else {
+                    card.style.display = 'none';
                 }
-                
-                let basePrice = pricingMatrix[pickup][destination];
-                let finalPrice = basePrice * sizeMultiplier[size] * urgencyMultiplier[urgency];
-                
-                // Round to nearest 50
-                finalPrice = Math.ceil(finalPrice / 50) * 50;
-                
-                document.getElementById('priceAmount').textContent = 'KES ' + finalPrice;
-                
-                let details = `Route: ${document.getElementById('pickup').options[document.getElementById('pickup').selectedIndex].text} → ${document.getElementById('destination').options[document.getElementById('destination').selectedIndex].text}<br>`;
-                details += `Size: ${document.getElementById('package-size').options[document.getElementById('package-size').selectedIndex].text}<br>`;
-                details += `Speed: ${document.getElementById('urgency').options[document.getElementById('urgency').selectedIndex].text}`;
-                
-                document.getElementById('priceDetails').innerHTML = details;
-                document.getElementById('priceResult').classList.add('show');
-                
-                btn.classList.remove('loading-active');
-            }, 800);
-        });
-
-        // Smooth scroll
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                document.querySelector(this.getAttribute('href')).scrollIntoView({
-                    behavior: 'smooth'
-                });
             });
         });
     </script>
